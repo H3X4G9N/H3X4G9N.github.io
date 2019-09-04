@@ -157,6 +157,7 @@ let textureCoordinateAttribute = gl.getAttribLocation(program, "a_TextureCoordin
 let projectionUniform = gl.getUniformLocation(program, "u_Projection");
 let modelUniform = gl.getUniformLocation(program, "u_Model");
 let viewUniform = gl.getUniformLocation(program, "u_View");
+let colorUniform = gl.getUniformLocation(program, "u_Color");
 let vertexBuffer = gl.createBuffer();
 
 let rectangles = [];
