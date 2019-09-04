@@ -14,8 +14,6 @@ let cameraPosition = [0, 0];
 let cameraSpeed = 1;
 /**/
 
-let rectangle1 = new Rectangle([0, 0], 0, [1, 1], [255, 255, 255]);
-
 for (let a = 0; a < 100; a++) {
     new Rectangle([randomIn(-100, 100), randomIn(-100, 100)], randomIn(0, 360), [randomIn(0, 10), randomIn(0, 10)], randomColor());
 }
