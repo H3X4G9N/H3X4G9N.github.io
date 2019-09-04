@@ -1,10 +1,6 @@
 let vec2 = glMatrix.vec2;
 let mat3 = glMatrix.mat3;
 
-function randomIn(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function createCanvas(width, height, parent) {
     let canvas = document.createElement("canvas");
     canvas.width = width;
