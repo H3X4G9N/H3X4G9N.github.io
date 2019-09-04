@@ -2,6 +2,12 @@ let toRadian = glMatrix.glMatrix.toRadian;
 let vec2 = glMatrix.vec2;
 let mat3 = glMatrix.mat3;
 
+let radian = 180 / Math.PI;
+
+function toDegree(a) {
+    return a * radian;
+}
+
 function createCanvas(width, height, parent) {
     let canvas = document.createElement("canvas");
     canvas.width = width;
@@ -56,7 +62,7 @@ function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
 }
 
 function rgb(color) {
-    return [color[0] % 255 / 255, color[1] % 255 / 255, color[2] % 255 / 255];
+    return [color[0] % 256 / 255, color[1] % 256 / 255, color[2] % 256 / 255];
 }
 
 let width = document.body.clientWidth;
@@ -182,6 +188,7 @@ function render() {
     let projection = [zoom / width, 0, 0, 0, zoom / height, 0, 0, 0, 1];
     let view = [1, 0, 0, 0, 1, 0, -cameraPosition[0], -cameraPosition[1], 1];
 
+    gl.enable(gl.DEPTH_TEST);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5]), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(vertexAttribute);
@@ -221,7 +228,7 @@ function render() {
 
         /**/
         gl.clearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.viewport(0, 0, width, height);
         gl.useProgram(program);
         gl.uniformMatrix3fv(projectionUniform, false, projection);
