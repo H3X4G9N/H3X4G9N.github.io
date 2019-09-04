@@ -55,6 +55,10 @@ function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
     return program;
 }
 
+function rgb(color) {
+    return [color[0] % 255 / 255, color[1] % 255 / 255, color[2] % 255 / 255];
+}
+
 let width = document.body.clientWidth;
 let height = document.body.clientHeight;
 let canvas = createCanvas(width, height, document.body);
@@ -140,10 +144,10 @@ let program = createProgram(
     `,
     `
         precision mediump float;
-        uniform vec4 u_Color;
+        uniform vec3 u_Color;
 
         void main(void) {
-            gl_FragColor = u_Color;
+            gl_FragColor = vec4(u_Color.xyz, 1);
         }
     `
 );
@@ -226,7 +230,7 @@ function render() {
 
         for (let a = 0; a < rectangles.length; a++) {
             gl.uniformMatrix3fv(modelUniform, false, rectangles[a].model);
-            gl.uniform4fv(colorUniform, rectangles[a].color);
+            gl.uniform3fv(colorUniform, rectangles[a].color);
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         }
         /**/
