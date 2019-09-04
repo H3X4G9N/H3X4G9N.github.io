@@ -174,7 +174,8 @@ class Rectangle {
     }
 
     calculateModel() {
-        mat3.fromTranslation(this.model, this.position);
+        mat3.identity(this.model);
+        mat3.translate(this.model, this.model, this.position);
         mat3.rotate(this.model, this.model, toRadian(this.angle));
         mat3.scale(this.model, this.model, this.scale);
     }
