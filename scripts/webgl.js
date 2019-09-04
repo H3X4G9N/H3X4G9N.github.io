@@ -169,9 +169,9 @@ class Rectangle {
     }
 
     calculateModel() {
-        this.model = mat3.fromTranslation(this.model, this.position);
-        this.model = mat3.rotate([], this.model, toRadian(this.angle));
-        this.model = mat3.scale([], this.model, this.scale);
+        mat3.fromTranslation(this.model, this.position);
+        mat3.rotate(this.model, this.model, toRadian(this.angle));
+        mat3.scale(this.model, this.model, this.scale);
     }
 }
 
