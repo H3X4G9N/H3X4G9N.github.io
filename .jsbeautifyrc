@@ -1,0 +1,6 @@
+{
+    "end_with_newline": true,
+    "indent_inner_html": true,
+    "extra_liners": [],
+    "space_after_anon_function": false
+}
