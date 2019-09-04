@@ -231,7 +231,7 @@ function render() {
 
         for (let a = 0; a < rectangles.length; a++) {
             gl.uniformMatrix3fv(modelUniform, false, rectangles[a].model);
-            gl.uniform3fv(colorUniform, rectangles[a].color);
+            gl.uniform3fv(colorUniform, rgb(rectangles[a].color));
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         }
         /**/
