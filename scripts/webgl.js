@@ -137,15 +137,13 @@ let program = createProgram(
         uniform mat3 u_Projection;
         uniform mat3 u_View;
         attribute vec2 a_Vertex;
-
         void main(void) {
-            gl_Position = vec4((u_Model * u_Projection * u_View * vec3(a_Vertex, 1)).xy, 0, 1);
+            gl_Position = vec4((u_Projection * u_View * u_Model * vec3(a_Vertex, 1)).xy, 0, 1);
         }
     `,
     `
         precision mediump float;
         uniform vec3 u_Color;
-
         void main(void) {
             gl_FragColor = vec4(u_Color.xyz, 1);
         }
@@ -174,8 +172,7 @@ class Rectangle {
     }
 
     calculateModel() {
-        mat3.identity(this.model);
-        mat3.translate(this.model, this.model, this.position);
+        mat3.fromTranslation(this.model, this.position);
         mat3.rotate(this.model, this.model, toRadian(this.angle));
         mat3.scale(this.model, this.model, this.scale);
     }
