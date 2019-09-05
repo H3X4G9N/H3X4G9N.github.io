@@ -10,7 +10,7 @@ document.body.appendChild(app.view);
 // load the texture we need
 app.loader.add('bunny', 'bunny.png').load((loader, resources) => {
     // This creates a texture from a 'bunny.png' image
-    const bunny = new PIXI.Sprite(resources.bunny.texture);
+    const bunny = new PIXI.Sprite("test.png");
 
     // Setup the position of the bunny
     bunny.x = app.renderer.width / 2;
