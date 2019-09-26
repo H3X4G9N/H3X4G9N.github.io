@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+</head>
+<script src="pixi.js"></script>
+<body>
+	<script type="text/javascript">
+	
+	class Vector {
+		constructor(x, y) {
+			this.x = x;
+			this.y = y;
+		}
+		
+		get length() {
+			return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)); 
+		}
+		
+		get angle() {
+			if (this.x > 0 && this.y > 0) {
+				return Math.atan(this.x / this.y);
+			}
+			if (this.x < 0 && this.y < 0) {
+				return Math.atan(this.x / this.y) + Math.PI;
+			}
+			if (this.y == 0) {
+				if (this.x > 0) {
+					return Math.PI / 2;
+				} else if (this.x < 0) {
+					return Math.PI + Math.PI / 2;
+				} else {
+					return 0;
+				}
+			}
+			if (this.x == 0) {
+				if (this.y > 0) {
+					return 0;
+				} else if (this.y < 0) {
+					return Math.PI;
+				}
+			}
+			if (this.y < 0) {
+				return Math.abs(Math.atan(this.y / this.x)) + Math.PI / 2;
+			}
+			if (this.x < 0) {
+				return Math.abs(Math.atan(this.y / this.x)) + Math.PI + Math.PI / 2;
+			}
+		}
+	}
+  
+	function randomInt(min, max) {
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
+	
+	function generateShape(count) {
+		let xs = [];
+		let ys = [];
+		
+		for (let i = 0; i < count; ++i) {
+			xs.push(randomInt(0, 100));
+			ys.push(randomInt(0, 100));
+		}
+		
+		xs.sort((a, b) => a - b);
+		ys.sort((a, b) => a - b);
+		
+		let chains = [];
+		
+		chains[0] = [xs.shift(), xs.pop()];
+		chains[1] = chains[0].slice();
+		chains[2] = [ys.shift(), ys.pop()];
+		chains[3] = chains[2].slice();
+		
+		for (let i = Math.floor((count - 2) / 2); i > 0; --i) {
+			chains[0].push(xs.splice(randomInt(0, xs.length), 1)[0]);
+			chains[2].push(ys.splice(randomInt(0, ys.length), 1)[0]);
+		}
+		
+		chains[1] = chains[1].concat(xs);
+		chains[3] = chains[3].concat(ys);
+		
+		for (let i = 0; i < chains.length; ++i) {
+			chains[i].sort((a, b) => a - b);
+		}
+		
+		let xvectors = [];
+		let yvectors = [];
+		let vectors = [];
+			
+		for (let i = 1; i < chains[0].length; ++i) {
+			xvectors.push(chains[0][i] - chains[0][i - 1]);
+		}
+		
+		for (let i = 1; i < chains[1].length; ++i) {
+			xvectors.push(chains[1][i - 1] - chains[1][i]);
+		}
+		
+		for (let i = 1; i < chains[2].length; ++i) {
+			yvectors.push(chains[2][i] - chains[2][i - 1]);
+		}
+		
+		for (let i = 1; i < chains[3].length; ++i) {
+			yvectors.push(chains[3][i - 1] - chains[3][i]);
+		}
+		
+		for (let i = 0; i < count; ++i) {
+			let xvector = xvectors.splice(randomInt(0, xvectors.length), 1)[0];
+			let yvector = yvectors.splice(randomInt(0, yvectors.length), 1)[0];
+			vectors.push(new Vector(xvector, yvector));
+		}
+		
+		vectors.sort((a, b) => (a.angle > b.angle) ? 1 : ((b.angle > a.angle) ? -1 : 0));
+		
+		for (let i = 0; i < vectors.length; ++i) {
+			console.log(vectors[i], vectors[i].angle);
+		}
+		
+		let points = [0, 0];
+		
+		for (let i = 0; i < vectors.length; ++i) {
+			points.push(points[points.length - 2] + vectors[i].x, points[points.length - 1] + vectors[i].y);
+		}
+		
+		for (let i = 0; i < points.length; i += 2) {
+			console.log([points[i], points[i + 1]]);
+		}
+		
+		return points;
+	}
+	
+	const app = new PIXI.Application({width:640, height: 480});
+	document.body.appendChild(app.view);
+	
+	let polygon = new PIXI.Graphics();
+	polygon.beginFill(0xFFFFFF);
+	polygon.drawPolygon(generateShape(5));
+	polygon.endFill();
+	polygon.x = 320;
+	polygon.y = 240;
+	
+	app.stage.addChild(polygon);
+	
+  </script>
+</body>
+</html>
