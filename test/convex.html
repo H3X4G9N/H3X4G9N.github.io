@@ -8,6 +8,71 @@
 <body>
 	<script type="text/javascript">
 	
+	/**/
+	let trackedMouseButtons = {
+	    0: true,
+	    1: true,
+	    2: true
+	};
+	let mouseButtonDownCount = 0;
+	let mouseButtons = {};
+	let mousePosition = [0, 0];
+	let mouseDownPosition = [0, 0];
+
+	document.addEventListener("mousemove", function(event) {
+	    mousePosition[0] = event.pageX;
+	    mousePosition[1] = event.pageY;
+	});
+
+	document.addEventListener("mousedown", function(event) {
+	    mouseButtonDownCount++;
+
+	    if (trackedMouseButtons[event.button]) {
+		mouseButtons[event.button] = true;
+		mouseDownPosition[0] = mousePosition[0];
+		mouseDownPosition[1] = mousePosition[1];
+	    }
+	});
+
+	document.addEventListener("mouseup", function(event) {
+	    mouseButtonDownCount--;
+
+	    if (trackedMouseButtons[event.button]) {
+		mouseButtons[event.button] = false;
+	    }
+	});
+	/**/
+
+	/**/
+	let trackedKeys = {
+	    65: true,
+	    68: true,
+	    83: true,
+	    87: true,
+	    81: true,
+	    69: true,
+	    16: true
+	};
+	let keys = {};
+	let keyDownCount = 0;
+
+	document.addEventListener("keydown", function(event) {
+	    keyDownCount++;
+
+	    if (trackedKeys[event.keyCode]) {
+		keys[event.keyCode] = true;
+	    }
+	});
+
+	document.addEventListener("keyup", function(event) {
+	    keyDownCount--;
+
+	    if (trackedKeys[event.keyCode]) {
+		keys[event.keyCode] = false;
+	    }
+	});
+	/**/
+	
 	class Vector {
 		constructor(x, y) {
 			this.x = x;
