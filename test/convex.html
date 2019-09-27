@@ -54,13 +54,13 @@
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
 	
-	function generateShape(count) {
+	function generateShape(count, xmin, xmax, ymin, ymax) {
 		let xs = [];
 		let ys = [];
 		
 		for (let i = 0; i < count; ++i) {
-			xs.push(randomInt(0, 100));
-			ys.push(randomInt(0, 100));
+			xs.push(randomInt(xmin, xmax));
+			ys.push(randomInt(ymin, ymax));
 		}
 		
 		xs.sort((a, b) => a - b);
@@ -135,7 +135,7 @@
 	
 	let polygon = new PIXI.Graphics();
 	polygon.beginFill(0xFFFFFF);
-	polygon.drawPolygon(generateShape(5));
+	polygon.drawPolygon(generateShape(5, 50, 100, 50, 100));
 	polygon.endFill();
 	polygon.x = 320;
 	polygon.y = 240;
